@@ -68,7 +68,12 @@ export default {
                 }
             }
             catch(error){
-                this.errorMessage = error.response.data.message;
+                if(error.response){
+                    this.errorMessage = error.response.data.message;
+                }
+                else{
+                    this.errorMessage = "Connection refused!";
+                }
                 this.isErrorVisible = true;
             }
             

@@ -1,11 +1,9 @@
 <template>
-    
-    <footer id="sticky-footer" class="py-2 bg-dark text-white-50 fixed-bottom">
+    <footer id="sticky-footer" class="footer py-2 bg-dark text-white-50">
         <div class="container text-center">
             <small>Copyright &copy; 2020</small>
         </div>
     </footer>
-
 </template>
 
 <script>
@@ -22,6 +20,8 @@ export default {
 <style>
 
 #sticky-footer {
-  flex-shrink: none;
+    flex-shrink: none;
+
 }
+
 </style>

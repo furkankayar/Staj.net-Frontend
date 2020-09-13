@@ -14,6 +14,14 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue);
 
+//Avoid navigation duplicated error
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated') throw err;
+  });
+}
+
 Vue.use(VueRouter);
 
 import User from './components/User.vue';

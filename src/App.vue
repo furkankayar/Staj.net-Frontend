@@ -1,7 +1,7 @@
 <template>
-  <div class="container-fluid" id="outer">
+  <div id="app">
     <Header/>
-    <router-view />
+    <router-view class="view" />
     <Footer/>
   </div>
 </template>
@@ -24,8 +24,28 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  margin-top: 80px;
+  flex-direction: column;
+  height: 100%;
 }
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.view{
+  margin-bottom: 40px;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px; /* Set the fixed height of the footer here */
+}
+
 </style>

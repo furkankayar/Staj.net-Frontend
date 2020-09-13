@@ -25,6 +25,9 @@ export default{
     },
     async whoami(){
         return this.execute('get', '/auth/whoami', {});
+    },
+    async logout(){
+        return this.execute('post', '/auth/logout', {});
     }
 
 }
