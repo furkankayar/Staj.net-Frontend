@@ -34,6 +34,7 @@ const router = new VueRouter({
             try{
               let res = await api.getUser(to.params.username);
               if(res.status === 200){
+                to.params.user = res.data;
                 next();
               }
               else{

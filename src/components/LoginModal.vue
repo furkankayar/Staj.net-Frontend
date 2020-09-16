@@ -1,14 +1,14 @@
 <template>
   <div>
     <b-modal @hidden="modalClosing()" id="login-modal" size="md" title="Login" hide-header hide-footer align="center">
-        <div class="w-75 justify-content-center" align="left" style="margin-top:15px;margin-bottom:40px;">
+        <div class="w-100 p-4 justify-content-center" align="left">
             <h5 class="card-title text-center">Login</h5>
             <hr/>
         
             <b-alert v-model="isErrorVisible" variant="danger" dismissible style="font-size:14px;">
                 {{errorMessage}}
             </b-alert>
-            <form class="form" role="form" autocomplete="off" id="formLogin">
+            <form v-on:keyup.enter="onEnter()" class="form" role="form" autocomplete="off" id="formLogin" novalidate>
                 <div class="form-group">
                     <label style="font-size:14px" for="uname1">Username</label>
                     <input v-model="user.username" style="font-size:14px" type="text" class="form-control form-control-md rounded-0" name="uname1" id="uname1" required="">
@@ -18,10 +18,11 @@
                     <label style="font-size:14px" >Password</label>
                     <input v-model="user.password" style="font-size:14px" type="password" class="form-control form-control-md rounded-0" id="pwd1" required="" autocomplete="new-password">
                     <div class="invalid-feedback">Enter your password too!</div>
-                </div>            
+                </div>      
+                <button type="button" @click="login" class="btn btn-primary float-right" style="font-size:14px;width:80px;" id="btnLogin">Login</button>        
             </form>   
             <br/>
-            <button @click="login" class="btn btn-primary float-right" style="font-size:14px;width:80px;" id="btnLogin">Login</button>  
+            
         </div>      
     </b-modal>
   </div>
@@ -47,11 +48,11 @@ export default {
     methods: {
         async login () {
             if(this.user.username.length < 6){
-                this.errorMessage = "Invalid username!";
+                this.errorMessage = "Missing username!";
                 this.isErrorVisible = true;
                 return; 
             }else if(this.user.password.length < 8){
-                this.errorMessage = "Invalid password!";
+                this.errorMessage = "Missing password!";
                 this.isErrorVisible = true;
                 return; 
             }
@@ -69,7 +70,10 @@ export default {
             }
             catch(error){
                 if(error.response){
-                    this.errorMessage = error.response.data.message;
+                    this.errorMessage = "";
+                    error.response.data.messages.forEach(message => {
+                        this.errorMessage += message + "\n";
+                    });
                 }
                 else{
                     this.errorMessage = "Connection refused!";
@@ -85,6 +89,9 @@ export default {
                 password: ""
             };
             this.isErrorVisible = false;
+        },
+        onEnter(){
+            this.login();
         }
     }
 }

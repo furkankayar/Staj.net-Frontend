@@ -27,7 +27,7 @@ export default {
   text-align: left;
   color: #2c3e50;
   display: flex;
-  margin-top: 80px;
+  margin-top: 60px;
   flex-direction: column;
   height: 100%;
 }
