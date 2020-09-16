@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse dual-collapse2" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active pl-3">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <router-link class="nav-link" to="/" >Home <span class="sr-only">(current)</span></router-link> 
         </li>
         <li class="nav-item pl-3">
           <a class="nav-link" href="#">Announcements</a>
@@ -30,11 +30,11 @@
             <img src="https://71e56df8-a-62cb3a1a-s-sites.googlegroups.com/site/ehsaircraftdatabase/military-planes/f-16-fighting-falcon/F16.jpg?attachauth=ANoY7cqVLvbjgfLkt2Q0_GfWxbJETp9ecg_BExmOUOPlNG4g6F4I1g6LvKsTv0iLrDQJEjaS8gKcmdmVu1826oR46oWySpIYNSnY_SYCDVQFEAPvzYplrjtaG1k1YMXonRh-BLiXj9fe_3tSxMhka8W_DHteyN0eWAdCohvg0ryYvFirFg7QdZdFXvrNNP6JLr0gd7heMEfdZwLZrfgSKx3PC9PmUeiVW0TFaPk8dxjxXuPCkFHpACK5-Ch7s4PAb4aGirPNlVLsBcY9dN6dzrjmVCef7difmQ%3D%3D&attredirects=0" width="30" height="30" class="rounded-circle" >
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" @click="goProfile()" >Signed in as<br><b>{{ user.username }}</b></a>
+            <router-link class="dropdown-item" :to="'/user/' + user.username" >Signed in as<br><b>{{ user.username }}</b></router-link>
             <hr style="margin:5px"/>
             <a class="dropdown-item" href="#">Dashboard</a>
             <a class="dropdown-item" href="#">Edit Profile</a>
-            <a class="dropdown-item" @click="logout()">Log Out</a>
+            <router-link class="dropdown-item" to="/auth/logout">Log Out</router-link>
           </div>
         </li>   
       </ul>
@@ -88,6 +88,11 @@ export default {
         }
       });
 
+      window.EventBus.$on('loggedOut', () => {
+        this.isLoggedIn = 'false';
+        this.user = {}; 
+      });
+
       try{
         let response = await api.whoami();
         if(response.status == 200){
@@ -115,14 +120,6 @@ export default {
           this.isLoggedIn = 'false';
         }
         this.$router.push('/');
-      },
-      goProfile(){
-        try{
-          this.$router.push('/user/' + this.user.username);
-        }
-        catch(error){
-          this.$router.refresh();
-        }
       }
     }
 }
