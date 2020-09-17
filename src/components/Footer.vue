@@ -21,7 +21,7 @@ export default {
 
 #sticky-footer {
     flex-shrink: none;
-
+    
 }
 
 </style>

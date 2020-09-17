@@ -28,6 +28,7 @@ export default {
   color: #2c3e50;
   display: flex;
   margin-top: 60px;
+  margin-bottom:20px;
   flex-direction: column;
   height: 100%;
 }

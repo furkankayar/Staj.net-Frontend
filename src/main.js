@@ -7,12 +7,22 @@ import api from './api';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faSignOutAlt)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+library.add(faSignOutAlt);
+library.add(faLinkedin);
+library.add(faGithub);
+library.add(faInstagram);
+library.add(faTwitter);
+library.add(faFacebook);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 window.EventBus = new Vue();
 
