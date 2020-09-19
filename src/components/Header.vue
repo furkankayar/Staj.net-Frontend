@@ -78,19 +78,23 @@ export default {
           if(response.status == 200){
             this.isLoggedIn = 'true';
             this.user = response.data;
+            window.loggedUser = this.user;
           }
           else{
             this.isLoggedIn = 'false';
+            window.loggedUser = {};
           }
         }
         catch(error){
           this.isLoggedIn = 'false';
+          window.loggedUser = {};
         }
       });
 
       window.EventBus.$on('loggedOut', () => {
         this.isLoggedIn = 'false';
         this.user = {}; 
+        window.loggedUser = {};
       });
 
       try{
@@ -98,13 +102,16 @@ export default {
         if(response.status == 200){
           this.isLoggedIn = 'true';
           this.user = response.data;
+          window.loggedUser = this.user;
         }
         else{
           this.isLoggedIn = 'false';
+          window.loggedUser = {};
         }
       }
       catch(error){
         this.isLoggedIn = 'false';
+        window.loggedUser = {};
       }
       
     },
@@ -114,10 +121,12 @@ export default {
           let response = await api.logout();
           if(response.status == 200){
             this.isLoggedIn = 'false';
+            window.loggedUser = {};
           }
         }
         catch(error){
           this.isLoggedIn = 'false';
+          window.loggedUser = {};
         }
         this.$router.push('/');
       }

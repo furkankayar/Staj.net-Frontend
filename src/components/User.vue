@@ -20,31 +20,43 @@
       <div class="row">
         <div class="col-md-8">
           <div class="container">
+            
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Personal Information</div>
               <div class="card-body translate-color">
                 <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Name</label>
-                    <h6>{{ user.firstName + " " + user.lastName }}</h6>
+                  <div class="col-md-11">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Name</label>
+                        <h6>{{ user.firstName + " " + user.lastName }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Birthdate</label>
+                        <h6>{{ formattedBirthdate }}</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Nationality</label>
+                        <h6>{{ user.nationality }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Gender</label>
+                        <h6>{{ user.gender }}</h6>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Birthdate</label>
-                    <h6>{{ formattedBirthdate }}</h6>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Nationality</label>
-                    <h6>{{ user.nationality }}</h6>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Gender</label>
-                    <h6>{{ user.gender }}</h6>
+                  <div class="col-md-1">
+                    <div class="col-md-1 text-right">
+                      <a v-b-modal.personal-information-modal role="button"><font-awesome-icon icon="pencil-alt" size="1x" style="color:gray;"/></a>
+                      <PersonalInformationModal :user="user" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Account Information</div>
               <div class="card-body translate-color">
@@ -106,7 +118,7 @@
               </div>
             </div> 
             <div class="card" style="margin-top:20px">
-              <div class="card-header sans-semi">Job Histories</div>
+              <div class="card-header sans-semi">Work Experience</div>
               <div v-for="(jobHistory, index) in user.jobHistories" :key="index">
                 <div class="card-body translate-color">
                   <div class="row">
@@ -144,7 +156,7 @@
               </div>
             </div>
             <div class="card" style="margin-top:20px">
-              <div class="card-header sans-semi">Education Histories</div>
+              <div class="card-header sans-semi">Educational Background</div>
               <div v-for="(educationHistory, index) in user.educationHistories" :key="index">
                 <div v-if="educationHistory.type === 'Undergraduate' || educationHistory.type === 'Graduate' || educationHistory.type === 'Postgraduate'" class="card-body translate-color">
                   <div class="row">
@@ -240,6 +252,26 @@
               </div>
             </div>
             <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Projects</div>
+              <div v-for="(project, index) in user.projects" :key="index">
+                <div class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-12">
+                      <label class="text-secondary small">Project Name</label>
+                      <h6>{{ project.name }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="text-secondary small">Project Description</label>
+                      <h6>{{ project.description }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr v-if="index != user.projects.length - 1" style="margin:0px;"/>
+              </div>
+            </div>
+            <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Foreign Languages</div>
               <div v-for="(language, index) in user.foreignLanguages" :key="index">
                 <div class="card-body translate-color">
@@ -271,6 +303,30 @@
                   </div>
                 </div>
                 <hr v-if="index != user.foreignLanguages.length - 1" style="margin:0px;"/>
+              </div>
+            </div>
+            <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Computer Skills</div>
+              <div v-for="(skill, index) in user.computerSkills" :key="index">
+                <div class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-6">
+                      <label class="text-secondary small">Skill Name</label>
+                      <h6>{{ skill.name }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Level</label>
+                      <h6>{{ skill.level }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="text-secondary small">Explanation</label>
+                      <h6>{{ skill.explanation }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr v-if="index != user.jobHistories.length - 1" style="margin:0px;"/>
               </div>
             </div>
             <div class="card" style="margin-top:20px">
@@ -324,9 +380,13 @@
 </template>
 
 <script>
+import PersonalInformationModal from './profileModals/PersonalInformationModal';
 
 export default {
   name: 'User',
+  components: {
+    PersonalInformationModal
+  },
   data() {
     return {
       user: {
@@ -346,6 +406,11 @@ export default {
     }
   },
   mounted() {
+
+    window.EventBus.$on('personalInformationUpdated', () => {
+      this.formattedBirthdate = this.formatDate(this.user.birthdate);
+    });
+
     this.user = this.$route.params.user;
     this.displayName = this.user.firstName.toUpperCase() + " " + this.user.lastName.toUpperCase(); 
     console.log(this.user);
