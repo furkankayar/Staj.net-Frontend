@@ -27,7 +27,7 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown pl-3" style="margin:0px;">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="https://71e56df8-a-62cb3a1a-s-sites.googlegroups.com/site/ehsaircraftdatabase/military-planes/f-16-fighting-falcon/F16.jpg?attachauth=ANoY7cqVLvbjgfLkt2Q0_GfWxbJETp9ecg_BExmOUOPlNG4g6F4I1g6LvKsTv0iLrDQJEjaS8gKcmdmVu1826oR46oWySpIYNSnY_SYCDVQFEAPvzYplrjtaG1k1YMXonRh-BLiXj9fe_3tSxMhka8W_DHteyN0eWAdCohvg0ryYvFirFg7QdZdFXvrNNP6JLr0gd7heMEfdZwLZrfgSKx3PC9PmUeiVW0TFaPk8dxjxXuPCkFHpACK5-Ch7s4PAb4aGirPNlVLsBcY9dN6dzrjmVCef7difmQ%3D%3D&attredirects=0" width="30" height="30" class="rounded-circle" >
+            <img src="../assets/profile.png" width="30" height="30" class="rounded-circle" >
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <router-link class="dropdown-item" :to="'/user/' + user.username" >Signed in as<br><b>{{ user.username }}</b></router-link>

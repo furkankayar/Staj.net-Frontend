@@ -6,7 +6,7 @@
         <div class="card-body">
           <div class="row align-items-center">
             <div class="col-md-2" style="padding:0px;maxWidth:140px;">
-              <img class="rounded-circle" height=120 width=120 src="https://71e56df8-a-62cb3a1a-s-sites.googlegroups.com/site/ehsaircraftdatabase/military-planes/f-16-fighting-falcon/F16.jpg?attachauth=ANoY7cqVLvbjgfLkt2Q0_GfWxbJETp9ecg_BExmOUOPlNG4g6F4I1g6LvKsTv0iLrDQJEjaS8gKcmdmVu1826oR46oWySpIYNSnY_SYCDVQFEAPvzYplrjtaG1k1YMXonRh-BLiXj9fe_3tSxMhka8W_DHteyN0eWAdCohvg0ryYvFirFg7QdZdFXvrNNP6JLr0gd7heMEfdZwLZrfgSKx3PC9PmUeiVW0TFaPk8dxjxXuPCkFHpACK5-Ch7s4PAb4aGirPNlVLsBcY9dN6dzrjmVCef7difmQ%3D%3D&attredirects=0" >
+              <img class="rounded-circle" height=120 width=120 src="../assets/profile.png">
             </div>
             <div class="col-md-10">
               <h4 style="font-size: 26px;">{{ displayName }}</h4>
@@ -21,8 +21,8 @@
         <div class="col-md-8">
           <div class="container">
             <div class="card" style="margin-top:20px">
-              <div class="card-header">Personal Information</div>
-              <div class="card-body">
+              <div class="card-header sans-semi">Personal Information</div>
+              <div class="card-body translate-color">
                 <div class="row">
                   <div class="col-md-6">
                     <label class="text-secondary small">Name</label>
@@ -30,7 +30,7 @@
                   </div>
                   <div class="col-md-6">
                     <label class="text-secondary small">Birthdate</label>
-                    <h6>{{ formattedBirthdate.toLocaleDateString() }}</h6>
+                    <h6>{{ formattedBirthdate }}</h6>
                   </div>
                 </div>
                 <div class="row">
@@ -46,8 +46,8 @@
               </div>
             </div>
             <div class="card" style="margin-top:20px">
-              <div class="card-header">Account Information</div>
-              <div class="card-body">
+              <div class="card-header sans-semi">Account Information</div>
+              <div class="card-body translate-color">
                 <div class="row">
                   <div class="col-md-6">
                     <label class="text-secondary small">Username</label>
@@ -61,8 +61,221 @@
               </div>
             </div>
             <div class="card" style="margin-top:20px">
-              <div class="card-header">Social Media Accounts</div>
-              <div class="card-body">
+              <div class="card-header sans-semi">Contact Information</div>
+              <div class="card-body translate-color">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Country</label>
+                    <h6>{{ user.contact.address.country }}</h6>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="text-secondary small">City</label>
+                    <h6>{{ user.contact.address.city }}</h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="text-secondary small">District</label>
+                    <h6>{{ user.contact.address.district }}</h6>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Address</label>
+                    <h6>{{ user.contact.address.address }}</h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Post Code</label>
+                    <h6>{{ user.contact.address.postCode }}</h6>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Phone</label>
+                    <h6>{{ user.contact.phone }}</h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Fax</label>
+                    <h6>{{ user.contact.fax }}</h6>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="text-secondary small">Website</label>
+                    <h6>{{ user.contact.website }}</h6>
+                  </div>
+                </div>
+              </div>
+            </div> 
+            <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Job Histories</div>
+              <div v-for="(jobHistory, index) in user.jobHistories" :key="index">
+                <div class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-6">
+                      <label class="text-secondary small">Company Name</label>
+                      <h6>{{ jobHistory.companyName }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Position</label>
+                      <h6>{{ jobHistory.position }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Start Date</label>
+                      <h6>{{ formatDate(jobHistory.startDate) }}</h6>
+                    </div>
+                    <div v-if="!jobHistory.isWorking" class="col-md-6">
+                      <label class="text-secondary small">End Date</label>
+                      <h6>{{ formatDate(jobHistory.endDate) }}</h6>
+                    </div>
+                    <div v-if="jobHistory.isWorking" class="col-md-6">
+                      <label class="text-secondary small">Status</label>
+                      <h6>Working</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="text-secondary small">Explanation</label>
+                      <h6>{{ jobHistory.explanation }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr v-if="index != user.jobHistories.length - 1" style="margin:0px;"/>
+              </div>
+            </div>
+            <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Education Histories</div>
+              <div v-for="(educationHistory, index) in user.educationHistories" :key="index">
+                <div v-if="educationHistory.type === 'Undergraduate' || educationHistory.type === 'Graduate' || educationHistory.type === 'Postgraduate'" class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-6">
+                      <label class="text-secondary small">University</label>
+                      <h6>{{ educationHistory.schoolName }}</h6>
+                    </div>
+                    <div v-if="educationHistory.classNumber" class="col-md-6">
+                      <label class="text-secondary small">Grade</label>
+                      <h6>{{ educationHistory.classNumber }}</h6>
+                    </div>
+                    <div v-else class="col-md-6">
+                      <label class="text-secondary small">GPA</label>
+                      <h6>{{ educationHistory.gpa + " / " + (educationHistory.gradingSystem === 'FOUR' ? 4 : 100) }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Department</label>
+                      <h6>{{ educationHistory.departmentName }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Faculty</label>
+                      <h6>{{ educationHistory.facultyName }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Start Date</label>
+                      <h6>{{ formatDate(educationHistory.startDate) }}</h6>
+                    </div>
+                    <div v-if="educationHistory.educationStatus === 'Student'" class="col-md-6">
+                      <label class="text-secondary small">Education Status</label>
+                      <h6>{{ educationHistory.educationStatus }}</h6>
+                    </div>
+                    <div v-else-if="educationHistory.educationStatus === 'Graduated'" class="col-md-6">
+                      <label class="text-secondary small">End Date</label>
+                      <h6>{{ formatDate(educationHistory.endDate) }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div v-if="educationHistory.classNumber"  class="col-md-6">
+                      <label class="text-secondary small">GPA</label>
+                      <h6>{{ educationHistory.gpa + " / " + (educationHistory.gradingSystem === 'FOUR' ? 4 : 100) }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Type</label>
+                      <h6>{{ educationHistory.type }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-6">
+                      <label class="text-secondary small">School</label>
+                      <h6>{{ educationHistory.schoolName }}</h6>
+                    </div>
+                    <div v-if="educationHistory.classNumber" class="col-md-6">
+                      <label class="text-secondary small">Grade</label>
+                      <h6>{{ educationHistory.classNumber }}</h6>
+                    </div>
+                    <div v-else class="col-md-6">
+                      <label class="text-secondary small">GPA</label>
+                      <h6>{{ educationHistory.gpa + " / " + (educationHistory.gradingSystem === 'FOUR' ? 4 : 100) }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Start Date</label>
+                      <h6>{{ formatDate(educationHistory.startDate) }}</h6>
+                    </div>
+                    <div v-if="educationHistory.educationStatus === 'Student'" class="col-md-6">
+                      <label class="text-secondary small">Education Status</label>
+                      <h6>{{ educationHistory.educationStatus }}</h6>
+                    </div>
+                    <div v-else-if="educationHistory.educationStatus === 'Graduated'" class="col-md-6">
+                      <label class="text-secondary small">End Date</label>
+                      <h6>{{ formatDate(educationHistory.endDate) }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div v-if="educationHistory.classNumber" class="col-md-6">
+                      <label class="text-secondary small">GPA</label>
+                      <h6>{{ educationHistory.gpa + " / " + (educationHistory.gradingSystem === 'FOUR' ? 4 : 100) }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Type</label>
+                      <h6>{{ educationHistory.type }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr v-if="index != user.educationHistories.length - 1" style="margin:0px;"/>
+              </div>
+            </div>
+            <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Foreign Languages</div>
+              <div v-for="(language, index) in user.foreignLanguages" :key="index">
+                <div class="card-body translate-color">
+                  <div class="row">
+                   <div class="col-md-6">
+                      <label class="text-secondary small">Language Name</label>
+                      <h6>{{ language.languageName }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Reading Level</label>
+                      <h6>{{ language.readingLevel }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Writing Level</label>
+                      <h6>{{ language.writingLevel }}</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Speaking Level</label>
+                      <h6>{{ language.speakingLevel }}</h6>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-secondary small">Listening Level</label>
+                      <h6>{{ language.listeningLevel }}</h6>
+                    </div>
+                  </div>
+                </div>
+                <hr v-if="index != user.foreignLanguages.length - 1" style="margin:0px;"/>
+              </div>
+            </div>
+            <div class="card" style="margin-top:20px">
+              <div class="card-header sans-semi">Social Media Accounts</div>
+              <div class="card-body translate-color">
                 <div class="row">
                   <div class="col-md-6">
                     <label class="text-secondary small">Facebook</label>
@@ -97,11 +310,11 @@
           <div class="sticky-top" style="top: 80px !important;">
               <h5>Social Media Accounts</h5>
               <ul class="myUl">  
-                <li v-if="linkedinAccount !== '-'"><a class="myList" :href="linkedinAccount"><font-awesome-icon :icon="['fab', 'linkedin']" size="2x" /></a></li>
-                <li v-if="instagramAccount !== '-'"><a class="myList" :href="instagramAccount"><font-awesome-icon :icon="['fab', 'instagram']" size="2x" /></a></li>
-                <li v-if="twitterAccount !== '-'"><a class="myList" :href="twitterAccount"><font-awesome-icon :icon="['fab', 'twitter']" size="2x" /></a></li>
-                <li v-if="facebookAccount !== '-'"><a class="myList" :href="facebookAccount"><font-awesome-icon :icon="['fab', 'facebook']" size="2x" /></a></li>
-                <li v-if="githubAccount !== '-'"><a class="myList" :href="githubAccount"><font-awesome-icon :icon="['fab', 'github']" size="2x" /></a></li>
+                <li v-if="linkedinAccount !== '-'"><a class="myList" target="_blank" :href="linkedinAccount"><font-awesome-icon :icon="['fab', 'linkedin']" size="2x" /></a></li>
+                <li v-if="instagramAccount !== '-'"><a class="myList" target="_blank" :href="instagramAccount"><font-awesome-icon :icon="['fab', 'instagram']" size="2x" /></a></li>
+                <li v-if="twitterAccount !== '-'"><a class="myList" target="_blank" :href="twitterAccount"><font-awesome-icon :icon="['fab', 'twitter']" size="2x" /></a></li>
+                <li v-if="facebookAccount !== '-'"><a class="myList" target="_blank" :href="facebookAccount"><font-awesome-icon :icon="['fab', 'facebook']" size="2x" /></a></li>
+                <li v-if="githubAccount !== '-'"><a class="myList" target="_blank" :href="githubAccount"><font-awesome-icon :icon="['fab', 'github']" size="2x" /></a></li>
               </ul>
           </div>
         </div>
@@ -117,7 +330,11 @@ export default {
   data() {
     return {
       user: {
-
+        contact:{
+          address:{
+            
+          }
+        }
       },
       displayName: "",
       formattedBirthdate: new Date(),
@@ -132,7 +349,7 @@ export default {
     this.user = this.$route.params.user;
     this.displayName = this.user.firstName.toUpperCase() + " " + this.user.lastName.toUpperCase(); 
     console.log(this.user);
-    this.formattedBirthdate = new Date(this.user.birthdate);
+    this.formattedBirthdate = this.formatDate(this.user.birthdate);
     this.user.socials.forEach(social => {
       if(social.type === "LINKEDIN"){
         this.linkedinAccount = social.address;
@@ -150,9 +367,31 @@ export default {
         this.twitterAccount = social.address;
       } 
     });
+
+    this.user.educationHistories.sort((x, y) => {
+      let dateX = new Date(x.startDate);
+      let dateY = new Date(y.startDate);
+      if(dateX > dateY)
+        return -1;
+      else if(dateY > dateX)
+        return 1;
+      return 0;
+    });
+
+    this.user.jobHistories.sort((x, y) => {
+      let dateX = new Date(x.startDate);
+      let dateY = new Date(y.startDate);
+      if(dateX > dateY)
+        return -1;
+      else if(dateY > dateX)
+        return 1;
+      return 0;
+    });
   },
   methods: {
-
+    formatDate(date){
+      return new Date(date).toLocaleDateString();
+    }
   }
 }
 </script>
@@ -175,4 +414,24 @@ export default {
 .myList:hover {
   color: black !important;
 }
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
+.card-body h6{
+  font-family: 'Open Sans';
+  font-weight: 600 !important;
+  font-size: 15px;
+}
+
+.translate-color:hover {
+  background-color: #FCFCFC;
+}
+
+.card-header {
+
+  background-color: white;
+  color: #0773B5;
+
+}
+
+
 </style>

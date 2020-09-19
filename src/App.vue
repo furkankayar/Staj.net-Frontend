@@ -20,6 +20,7 @@ export default {
 </script>
 
 <style>
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,600,700);
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,6 +32,7 @@ export default {
   margin-bottom:20px;
   flex-direction: column;
   height: 100%;
+  
 }
 
 html {
@@ -47,6 +49,16 @@ footer {
   bottom: 0;
   width: 100%;
   height: 40px; /* Set the fixed height of the footer here */
+}
+
+.sans-semi {
+  font-family: 'Open Sans';
+  font-weight: 600;
+}
+
+.sans-bold {
+  font-family: 'Open Sans';
+  font-weight: 700;
 }
 
 </style>
