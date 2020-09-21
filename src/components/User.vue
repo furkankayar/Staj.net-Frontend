@@ -21,6 +21,8 @@
         <div class="col-md-8">
           <div class="container">
             
+            <!-- PERSONAL INFORMATION -->
+
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Personal Information</div>
               <div class="card-body translate-color">
@@ -33,17 +35,17 @@
                       </div>
                       <div class="col-md-6">
                         <label class="text-secondary small">Birthdate</label>
-                        <h6>{{ formattedBirthdate }}</h6>
+                        <h6>{{ formattedBirthdate || '-' }}</h6>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
                         <label class="text-secondary small">Nationality</label>
-                        <h6>{{ user.nationality }}</h6>
+                        <h6>{{ user.nationality || '-' }}</h6>
                       </div>
                       <div class="col-md-6">
                         <label class="text-secondary small">Gender</label>
-                        <h6>{{ user.gender }}</h6>
+                        <h6>{{ user.gender || '-' }}</h6>
                       </div>
                     </div>
                   </div>
@@ -56,6 +58,8 @@
                 </div>
               </div>
             </div>
+
+            <!-- ACCOUNT INFORMATION -->
 
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Account Information</div>
@@ -72,51 +76,69 @@
                 </div>
               </div>
             </div>
+
+
+            <!-- CONTACT INFORMATION -->
+
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Contact Information</div>
               <div class="card-body translate-color">
                 <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Country</label>
-                    <h6>{{ user.contact.address.country }}</h6>
+                  <div class="col-md-11">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Country</label>
+                        <h6>{{ user.contact.address.country || '-' }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">City</label>
+                        <h6>{{ user.contact.address.city || '-' }}</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">District</label>
+                        <h6>{{ user.contact.address.district || '-' }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Address</label>
+                        <h6>{{ user.contact.address.address || '-' }}</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Post Code</label>
+                        <h6>{{ user.contact.address.postCode || '-' }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Phone</label>
+                        <h6>{{ user.contact.phone || '-' }}</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Fax</label>
+                        <h6>{{ user.contact.fax || '-' }}</h6>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="text-secondary small">Website</label>
+                        <h6>{{ user.contact.website || '-' }}</h6>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">City</label>
-                    <h6>{{ user.contact.address.city }}</h6>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">District</label>
-                    <h6>{{ user.contact.address.district }}</h6>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Address</label>
-                    <h6>{{ user.contact.address.address }}</h6>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Post Code</label>
-                    <h6>{{ user.contact.address.postCode }}</h6>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Phone</label>
-                    <h6>{{ user.contact.phone }}</h6>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Fax</label>
-                    <h6>{{ user.contact.fax }}</h6>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="text-secondary small">Website</label>
-                    <h6>{{ user.contact.website }}</h6>
+                  <div class="col-md-1">
+                     <div class="col-md-1 text-right">
+                       <a v-b-modal.contact-information-modal role="button"><font-awesome-icon icon="pencil-alt" size="1x" style="color:gray;"/></a>
+                       <ContactInformationModal :user="user" />
+                    </div>
                   </div>
                 </div>
               </div>
             </div> 
+
+
+            <!-- WORK EXPERIENCE -->
+
             <div class="card" style="margin-top:20px">
               <div class="card-header sans-semi">Work Experience</div>
               <div v-for="(jobHistory, index) in user.jobHistories" :key="index">
@@ -381,11 +403,15 @@
 
 <script>
 import PersonalInformationModal from './profileModals/PersonalInformationModal';
+import ContactInformationModal from './profileModals/ContactInformationModal';
+
+import api from '../api.js';
 
 export default {
   name: 'User',
   components: {
-    PersonalInformationModal
+    PersonalInformationModal,
+    ContactInformationModal
   },
   data() {
     return {
@@ -397,7 +423,7 @@ export default {
         }
       },
       displayName: "",
-      formattedBirthdate: new Date(),
+      formattedBirthdate: "-",
       twitterAccount: "-",
       githubAccount: "-",
       instagramAccount: "-",
@@ -406,58 +432,81 @@ export default {
     }
   },
   mounted() {
-
-    window.EventBus.$on('personalInformationUpdated', () => {
-      this.formattedBirthdate = this.formatDate(this.user.birthdate);
-    });
-
-    this.user = this.$route.params.user;
-    this.displayName = this.user.firstName.toUpperCase() + " " + this.user.lastName.toUpperCase(); 
-    console.log(this.user);
-    this.formattedBirthdate = this.formatDate(this.user.birthdate);
-    this.user.socials.forEach(social => {
-      if(social.type === "LINKEDIN"){
-        this.linkedinAccount = social.address;
-      }
-      else if(social.type === "GITHUB"){
-        this.githubAccount = social.address;
-      }
-      else if(social.type === "FACEBOOK"){
-        this.facebookAccount = social.address;
-      }
-      else if(social.type === "INSTAGRAM"){
-        this.instagramAccount = social.address;
-      }
-      else if(social.type === "TWITTER"){
-        this.twitterAccount = social.address;
-      } 
-    });
-
-    this.user.educationHistories.sort((x, y) => {
-      let dateX = new Date(x.startDate);
-      let dateY = new Date(y.startDate);
-      if(dateX > dateY)
-        return -1;
-      else if(dateY > dateX)
-        return 1;
-      return 0;
-    });
-
-    this.user.jobHistories.sort((x, y) => {
-      let dateX = new Date(x.startDate);
-      let dateY = new Date(y.startDate);
-      if(dateX > dateY)
-        return -1;
-      else if(dateY > dateX)
-        return 1;
-      return 0;
-    });
+    this.setComponent(this.$route.params.user);
   },
   methods: {
     formatDate(date){
       return new Date(date).toLocaleDateString();
+    },
+    setComponent(user){
+      window.EventBus.$on('personalInformationUpdated', () => {
+        this.formattedBirthdate = this.formatDate(this.user.birthdate);
+      });
+
+      this.user = user;
+      this.displayName = this.user.firstName.toUpperCase() + " " + this.user.lastName.toUpperCase(); 
+      console.log(this.user);
+      this.formattedBirthdate = this.user.birthdate ? this.formatDate(this.user.birthdate) : '-';
+      this.user.socials.forEach(social => {
+        if(social.type === "LINKEDIN"){
+          this.linkedinAccount = social.address;
+        }
+        else if(social.type === "GITHUB"){
+          this.githubAccount = social.address;
+        }
+        else if(social.type === "FACEBOOK"){
+          this.facebookAccount = social.address;
+        }
+        else if(social.type === "INSTAGRAM"){
+          this.instagramAccount = social.address;
+        }
+        else if(social.type === "TWITTER"){
+          this.twitterAccount = social.address;
+        } 
+      });
+
+      this.user.educationHistories.sort((x, y) => {
+        let dateX = new Date(x.startDate);
+        let dateY = new Date(y.startDate);
+        if(dateX > dateY)
+          return -1;
+        else if(dateY > dateX)
+          return 1;
+        return 0;
+      });
+
+      this.user.jobHistories.sort((x, y) => {
+        let dateX = new Date(x.startDate);
+        let dateY = new Date(y.startDate);
+        if(dateX > dateY)
+          return -1;
+        else if(dateY > dateX)
+          return 1;
+        return 0;
+      });
     }
-  }
+  },
+  watch: {
+    async '$route.params.username'(newUsername){
+      try{
+        let response = await api.getUser(newUsername);
+        if(response.status === 200){
+          this.displayName= "";
+          this.formattedBirthdate= "-";
+          this.twitterAccount= "-";
+          this.githubAccount= "-";
+          this.instagramAccount= "-";
+          this.facebookAccount= "-";
+          this.linkedinAccount= "-";
+          this.$route.params.user = response.data;
+          this.setComponent(this.$route.params.user);
+        }
+      }
+      catch(error) {
+        console.log(error);
+      }
+    }
+  } 
 }
 </script>
 

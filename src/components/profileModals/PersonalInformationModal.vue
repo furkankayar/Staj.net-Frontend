@@ -116,6 +116,9 @@ export default {
             return date.split("T")[0];
         }, 
         modalLoad(){
+            if(this.user.username !== window.loggedUser.username){
+                this.$router.push('/auth/logout');
+            }
             this.updatedUser = JSON.parse(JSON.stringify(this.user));
             this.birthdate = this.formatDate(this.updatedUser.birthdate); 
         }, 
@@ -129,7 +132,7 @@ export default {
                     gender: this.updatedUser.gender,
                     nationality: this.updatedUser.nationality
                 };
-                let response = await api.updateUserData(window.loggedUser.username, requestBody);
+                let response = await api.updatePersonalInformation(window.loggedUser.username, requestBody);
                 if(response.status == 200){
                     this.user.firstName = this.updatedUser.firstName;
                     this.user.lastName = this.updatedUser.lastName;

@@ -116,20 +116,7 @@ export default {
       
     },
     methods: {
-      async logout(){
-        try{
-          let response = await api.logout();
-          if(response.status == 200){
-            this.isLoggedIn = 'false';
-            window.loggedUser = {};
-          }
-        }
-        catch(error){
-          this.isLoggedIn = 'false';
-          window.loggedUser = {};
-        }
-        this.$router.push('/');
-      }
+
     }
 }
 </script>

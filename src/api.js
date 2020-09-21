@@ -81,8 +81,11 @@ export default{
     async register(data){
         return this.execute('post', '/auth/register', data);
     },
-    async updateUserData(username, data){
-        return this.execute('put', '/user/' + username, data);
+    async updatePersonalInformation(username, data){
+        return this.execute('put', '/user/' + username + '/personalInformation', data);
+    },
+    async updateContactInformation(username, data){
+        return this.execute('put', '/user/' + username +'/contactInformation', data);
     }
 
 }
